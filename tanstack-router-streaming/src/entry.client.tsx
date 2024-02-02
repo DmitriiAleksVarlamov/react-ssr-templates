@@ -8,9 +8,6 @@ import { createAppRouter } from "./router.tsx";
 const hydrate = async () => {
     const router = createAppRouter();
 
-    // await router.load();
-    // await router.hydrate();
-
     startTransition(() => {
         hydrateRoot(
             document,

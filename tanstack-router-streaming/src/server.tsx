@@ -13,7 +13,7 @@ export default {
 
          const isCrawler = isbot(req.headers.get("user-agent"));
 
-         const renderStream = await new Promise<PipeableStream>((resolve) => {
+         const stream = await new Promise<PipeableStream>((resolve) => {
              const stream = renderToPipeableStream(app, {
                  onAllReady() {
                      if (isCrawler) {
@@ -45,16 +45,21 @@ export default {
              statusCode = 404
          }
 
+         const transforms = [transformStreamWithRouter(router)]
+
+         const transformedStream = transforms.reduce(
+             (stream, transform) => stream.pipe(transform as any),
+             stream,
+         )
+
          const { readable, writable } = new TransformStream();
 
          // transform
-         renderStream
-             .pipe(transformStreamWithRouter(router))
-             .pipe(Writable.fromWeb(writable));
+         transformedStream.pipe(Writable.fromWeb(writable));
 
          // “give up” after a timeout
          setTimeout(() => {
-             renderStream.abort();
+             stream.abort();
          }, 10000);
 
 
