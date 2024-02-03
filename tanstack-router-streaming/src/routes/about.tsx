@@ -5,22 +5,5 @@ export const Route = createFileRoute('/about')({
 })
 
 function About() {
-    return <div className="p-2">Hello from About!</div>
+    return <h3>Hello from About!</h3>
 }
-
-// import {createRoute} from "@tanstack/react-router";
-// import {rootRoute} from "./__root.tsx";
-//
-// export const aboutRoute = createRoute({
-//     getParentRoute: () => rootRoute,
-//     path: '/about',
-//     component: Index,
-// })
-//
-// function Index() {
-//     return (
-//         <div className="p-2">
-//             <h3>Welcome About!</h3>
-//         </div>
-//     )
-// }
